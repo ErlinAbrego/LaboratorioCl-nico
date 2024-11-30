@@ -54,6 +54,38 @@
     .buscar-form button i {
         margin-left: 5px;
     }
+
+    /* Estilo para el botón de Confirmar Cita */
+    .confirmar-cita-btn {
+        background-color: #28a745;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px; /* Reduce el tamaño del botón */
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 10px;
+    }
+
+    .confirmar-cita-btn:hover {
+        background-color: #218838;
+    }
+
+    /* Estilo para el botón de Mostrar Todas las Citas */
+    .mostrar-todas-citas-btn {
+        background-color: #343a40;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 10px;
+    }
+
+    .mostrar-todas-citas-btn:hover {
+        background-color: #23272b;
+    }
 </style>
 
 <form method="get" action="index.php" class="buscar-form">
@@ -62,12 +94,13 @@
         <label for="usercod">Buscar por Código de Usuario:</label>
         <input type="text" name="usercod" id="usercod" value="{{usercod}}">
         <button type="submit">Buscar <i class="fas fa-search"></i></button>
+        {{if ~MostrarDatos_enable}}
+        <button type="submit" name="mostrar_todas" class="mostrar-todas-citas-btn">Mostrar Todas las Citas</button>
+        {{endif ~MostrarDatos_enable}}
     </div>
 </form>
+
 <section class="wwerl">
-
-
-
     <table>
         <thead>
             <tr>
@@ -101,7 +134,6 @@
 
                 <td>{{FechaModificacion}}</td>
                 <td style="display:flex; gap:1rem; justify-content:center; align-items:center">
-
                     {{if ~UPD_enable}}
                     <a href="index.php?page=Citas-CitasForm&mode=UPD&CitaID={{CitaID}}"><i class="fas fa-user-pen"
                             style="color: #16a34a;"></i></a>
@@ -112,6 +144,14 @@
                     {{endif ~DEL_enable}}
                     <a href="index.php?page=Citas-CitasForm&mode=DSP&CitaID={{CitaID}}"><i class="fas fa-search"
                             style="color: #16a34a;"></i></a>
+                    
+                    <!-- Botón para confirmar la cita -->
+                    {{if ~Confirmar_enable}}
+                    <form method="POST" action="index.php?page=Citas-CitasList">
+                        <input type="hidden" name="citaID" value="{{CitaID}}" />
+                        <button type="submit" name="confirmar" class="confirmar-cita-btn">Confirmar</button>
+                    </form>
+                    {{endif ~Confirmar_enable}}
                 </td>
             </tr>
             {{endfor citas}}

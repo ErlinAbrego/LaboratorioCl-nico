@@ -30,7 +30,6 @@ class Citas extends Table
     public static function agregarCita($cita)
     {
         try {
-            // Validación básica
             if (!isset($cita['usercod'], $cita['FechaCita'], $cita['TipoExamen'], $cita['EstadoCita'])) {
                 throw new \Exception("Faltan campos obligatorios en la cita");
             }
@@ -43,8 +42,6 @@ class Citas extends Table
             return false;
         }
     }
-
-
 
     public static function actualizarCita($cita)
     {
@@ -62,6 +59,13 @@ class Citas extends Table
     public static function eliminarCita($CitaID)
     {
         $sqlstr = 'DELETE FROM Citas WHERE CitaID = :CitaID;';
+        return self::executeNonQuery($sqlstr, ["CitaID" => $CitaID]);
+    }
+
+    // Nuevo método para confirmar una cita
+    public static function confirmarCita($CitaID)
+    {
+        $sqlstr = 'UPDATE Citas SET EstadoCita = "Confirmada" WHERE CitaID = :CitaID;';
         return self::executeNonQuery($sqlstr, ["CitaID" => $CitaID]);
     }
 }
